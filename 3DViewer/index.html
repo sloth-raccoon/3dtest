@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Model Showcase</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
     <style>
         body {
             display: flex;
@@ -22,22 +23,11 @@
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        iframe {
+        model-viewer {
             width: 600px;
             height: 400px;
+            background-color: #EEE;
             border-radius: 10px;
-        }
-        p {
-            font-size: 14px;
-            color: #333;
-        }
-        a {
-            color: #1CAAD9;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
         }
         select {
             margin-bottom: 15px;
@@ -49,24 +39,38 @@
     </style>
 </head>
 <body>
+    
+
     <div class="container">
         <h2>選擇 3D 模型</h2>
         <select id="modelSelector" onchange="changeModel()">
             <option value="https://sketchfab.com/models/075a3a7b04c8484e85a308c852799eb1/embed">Kapibala (Sketchfab)</option>
-            <option value="https://github.com/sloth-raccoon/3dtest.git/3DViewer/models/AGirl.glb">自訂模型 (GitHub)</option>
+            <option value="https://sloth-raccoon.github.io/3dtest/3DViewer/models/AGirl.glb" selected>自訂模型 (GitHub)</option>
         </select>
-        <iframe id="modelViewer" title="3D Model" frameborder="0" allowfullscreen 
-            mozallowfullscreen="true" webkitallowfullscreen="true" 
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            src="https://sketchfab.com/models/075a3a7b04c8484e85a308c852799eb1/embed">
-        </iframe>
+        
+        <model-viewer 
+        id="modelViewer"
+        src="https://sloth-raccoon.github.io/3dtest/3DViewer/models/AGirl.glb"
+        auto-rotate
+        camera-controls 
+        min-camera-orbit="auto auto auto"
+        max-camera-orbit="auto auto auto"
+        orientation="0 0 1 -90deg">
+        </model-viewer>
     </div>
 
     <script>
         function changeModel() {
             let modelViewer = document.getElementById("modelViewer");
             let modelSelector = document.getElementById("modelSelector");
-            modelViewer.src = modelSelector.value;
+
+            let selectedValue = modelSelector.value;
+
+            if (selectedValue.includes("sketchfab.com")) {
+                alert("Sketchfab 需要 iframe 顯示，請手動開啟");
+            } else {
+                modelViewer.src = selectedValue;
+            }
         }
     </script>
 </body>
