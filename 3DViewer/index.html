@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -38,20 +39,35 @@
         a:hover {
             text-decoration: underline;
         }
+        select {
+            margin-bottom: 15px;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <iframe title="kapibala" frameborder="0" allowfullscreen 
+        <h2>選擇 3D 模型</h2>
+        <select id="modelSelector" onchange="changeModel()">
+            <option value="https://sketchfab.com/models/075a3a7b04c8484e85a308c852799eb1/embed">Kapibala (Sketchfab)</option>
+            <option value="https://github.com/sloth-raccoon/3dtest.git/3DViewer/models/AGirl.glb">自訂模型 (GitHub)</option>
+        </select>
+        <iframe id="modelViewer" title="3D Model" frameborder="0" allowfullscreen 
             mozallowfullscreen="true" webkitallowfullscreen="true" 
-            allow="autoplay; fullscreen; xr-spatial-tracking" 
+            allow="autoplay; fullscreen; xr-spatial-tracking"
             src="https://sketchfab.com/models/075a3a7b04c8484e85a308c852799eb1/embed">
         </iframe>
-        <p>
-            <a href="https://sketchfab.com/3d-models/kapibala-075a3a7b04c8484e85a308c852799eb1" target="_blank">kapibala</a>
-            by <a href="https://sketchfab.com/sloth3000" target="_blank">sloth3000</a>
-            on <a href="https://sketchfab.com" target="_blank">Sketchfab</a>
-        </p>
     </div>
+
+    <script>
+        function changeModel() {
+            let modelViewer = document.getElementById("modelViewer");
+            let modelSelector = document.getElementById("modelSelector");
+            modelViewer.src = modelSelector.value;
+        }
+    </script>
 </body>
 </html>
