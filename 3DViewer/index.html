@@ -29,6 +29,12 @@
             background-color: #EEE;
             border-radius: 10px;
         }
+        iframe {
+            width: 600px;
+            height: 400px;
+            border-radius: 10px;
+            background-color: #EEE;
+        }
         select {
             margin-bottom: 15px;
             padding: 8px;
@@ -39,8 +45,6 @@
     </style>
 </head>
 <body>
-    
-
     <div class="container">
         <h2>選擇 3D 模型</h2>
         <select id="modelSelector" onchange="changeModel()">
@@ -48,28 +52,40 @@
             <option value="https://sloth-raccoon.github.io/3dtest/3DViewer/models/AGirl.glb" selected>自訂模型 (GitHub)</option>
         </select>
         
-        <model-viewer 
-        id="modelViewer"
-        src="https://sloth-raccoon.github.io/3dtest/3DViewer/models/AGirl.glb"
-        auto-rotate
-        camera-controls 
-        min-camera-orbit="auto auto auto"
-        max-camera-orbit="auto auto auto"
-        orientation="0 0 1 -90deg">
-        </model-viewer>
+        <div id="modelViewerContainer">
+            <model-viewer 
+                id="modelViewer"
+                src="https://sloth-raccoon.github.io/3dtest/3DViewer/models/AGirl.glb"
+                auto-rotate
+                camera-controls 
+                min-camera-orbit="auto auto auto"
+                max-camera-orbit="auto auto auto"
+                orientation="0 0 1 -90deg">
+            </model-viewer>
+        </div>
     </div>
 
     <script>
         function changeModel() {
+            let modelViewerContainer = document.getElementById("modelViewerContainer");
             let modelViewer = document.getElementById("modelViewer");
             let modelSelector = document.getElementById("modelSelector");
 
             let selectedValue = modelSelector.value;
 
+            // If the selected model is from Sketchfab, use iframe
             if (selectedValue.includes("sketchfab.com")) {
-                alert("Sketchfab 需要 iframe 顯示，請手動開啟");
+                modelViewerContainer.innerHTML = `<iframe src="${selectedValue}" frameborder="0" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>`;
             } else {
-                modelViewer.src = selectedValue;
+                modelViewerContainer.innerHTML = `<model-viewer 
+                    id="modelViewer"
+                    src="${selectedValue}"
+                    auto-rotate
+                    camera-controls 
+                    min-camera-orbit="auto auto auto"
+                    max-camera-orbit="auto auto auto"
+                    orientation="0 0 1 -90deg">
+                </model-viewer>`;
             }
         }
     </script>
